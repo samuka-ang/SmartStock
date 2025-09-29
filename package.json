@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel index.html",
-    "build": "parcel build index.html",
-    "dev": "parcel index.html"
+    "start": "parcel public/index.html",
+    "build": "parcel build public/index.html",
+    "dev": "parcel public/index.html"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +42,7 @@
     "color-convert": "^2.0.1",
     "color-name": "^1.1.4",
     "commander": "^12.1.0",
+    "cors": "^2.8.5",
     "detect-libc": "^1.0.3",
     "dotenv": "^16.6.1",
     "dotenv-expand": "^11.0.7",
@@ -61,6 +62,7 @@
     "micromatch": "^4.0.8",
     "msgpackr": "^1.11.5",
     "msgpackr-extract": "^3.0.3",
+    "mysql2": "^3.15.1",
     "node-addon-api": "^7.1.1",
     "node-gyp-build-optional-packages": "^5.1.1",
     "node-releases": "^2.0.21",

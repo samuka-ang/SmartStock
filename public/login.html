@@ -1,44 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="manifest" href="../manifest.json">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStock</title>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="entrar-screen">
-    <div class="entrar-box">
-      <img src="../assets/senai.png" alt="Logo Senai" class="senai">
-      <form id="loginform">
-        <input type="email" id="email" required placeholder="Email" autocomplete="off"><br><br>
-        <input type="password" id="password" required placeholder="Senha" autocomplete="off"><br><br>
-        <input type="number" id="password" required placeholder="Token" autocomplete="off"><br><br>
-      </form>
-      <a class="entrar" href="dashboard.html">ENTRAR</a>
+    <div class="entrar-screen">
+        <div class="entrar-box">
+            <img src="../assets/senai.png" alt="Logo Senai" class="senai">
+            
+            <form id="loginform">
+                <input type="email" id="email" required placeholder="Email" autocomplete="off"><br><br>
+                <input type="password" id="password" required placeholder="Senha" autocomplete="off"><br><br>
+                <input type="number" id="token" required placeholder="Token" autocomplete="off"><br><br>
+                <button type="submit" class="entrar">ENTRAR</button>
+            </form>
+        </div>
     </div>
-  </div>
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('token', data.token); // Armazena o token no localStorage
-        window.location.href = '/dashboard.html'; // Redireciona para o painel
-      } else {
-        alert(data.message); // Exibe mensagem de erro
-      }
-    });
-  </script>
+    <script src="./login.js"></script>
 </body>
 </html>
