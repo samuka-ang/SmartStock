@@ -1,0 +1,4 @@
+.parcel-cache/
+/dist/
+*.map
+node_modules/
