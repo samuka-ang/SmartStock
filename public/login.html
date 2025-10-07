@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartStock</title>
     <link rel="manifest" href="../manifest.json">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="icon" href="logo-small.png" type="logo.png">
 </head>
 <body>
     <div class="entrar-screen">
@@ -13,50 +14,34 @@
             <img src="senai.png" alt="Logo Senai" class="senai">
             
             <form id="login-form">
-                <input type="email" id="email" required placeholder="Email" autocomplete="off"><br><br>
-                <input type="password" id="password" required placeholder="Senha" autocomplete="off"><br><br>
-                <!--<input type="number" id="token" required placeholder="Token" autocomplete="off"><br><br> -->
-                <button type="submit" class="entrar">ENTRAR</button>
+                
+                <div id="etapa-email">
+                    <input type="email" id="email" required placeholder="Email" autocomplete="off"><br><br>
+                </div>
+
+                <div id="etapa-password" class="oculto">
+                    <input type="password" id="password" required placeholder="Senha" autocomplete="off" disabled><br><br>
+                </div>
+
+                <div id="etapa-token" class="oculto">
+                    <div id="token-inputs-container">
+                        <input type="text" class="token-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" disabled>
+                        <input type="text" class="token-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" disabled>
+                        <input type="text" class="token-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" disabled>
+                        <input type="text" class="token-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" disabled>
+                        <input type="text" class="token-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" disabled>
+                        <input type="text" class="token-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" disabled>
+                    </div>
+                    <br><br>
+                </div>
+                
+                <button type="submit" id="btn-unico" class="entrar">ENTRAR</button> 
                 
                 <div id="mensagem" style="margin-top: 20px;"></div>
             </form>
         </div>
     </div>
 
-  <script>
-    const form = document.getElementById('login-form');
-    const mensagem = document.getElementById('mensagem');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      try {
-        const response = await fetch('http://localhost:3000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({email, password})
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          window.location.href = 'dashboard.html';
-        } else {
-          mensagem.textContent = data.message || 'Erro ao fazer login.';
-          mensagem.style.color = 'red';
-        }
-
-      } catch (error) {
-        mensagem.textContent = 'Erro de conexão com o servidor.';
-        mensagem.style.color = 'red';
-        console.error(error);
-      }
-    });
-  </script>
+    <script src="loginVal.js"></script> 
 </body>
 </html>

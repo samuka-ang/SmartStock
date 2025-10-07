@@ -1,90 +1,169 @@
+/* style.css - CÓDIGO COMPLETO */
+
 *{
-  user-select: none;
-  scrollbar-width: none;
+    user-select: none;
+    scrollbar-width: none;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #8f1f1f;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #8f1f1f;
 }
 
 .entrar-screen{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .entrar-box{
-  background-color: #b42626;
-  margin-top: 40px;
-  padding: 60px;
-  border-color: rgba(255, 255, 255, 0.700);
-  border-style: solid;
-  border-radius: 5px;
-  border-width: 2px;  
+    background-color: #b42626;
+    margin-top: 40px;
+    padding: 60px;
+    border-color: rgba(255, 255, 255, 0.700);
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 2px;  
 }
 
 .senai{
-  width: 220px;
-  margin-top: 40px;
+    width: 220px;
+    margin-top: 40px;
 }
 
 .entrar-div{
-  margin-top: 170px;
-  margin-bottom: 100px;
+    margin-top: 170px;
+    margin-bottom: 100px;
 }
 
-.entrar{
-  color: #b42626;
-  background-color: white;
-  border-style: none;
-  padding: 15px 25px;
-  cursor: pointer; 
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 15px;
-  margin-top: 50px;
-  margin-bottom: 50px;
+/* Estilo do botão único (ID btn-unico) */
+.entrar {
+    color: #b42626;
+    background-color: white;
+    border-style: none;
+    padding: 15px 25px;
+    cursor: pointer; 
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 15px;
+    /* Margem ajustada para o botão único */
+    margin-top: 25px; 
+    margin-bottom: 25px;
 }
 
 .text{
-  color: white;
-  font-size: 20px;
+    color: white;
+    font-size: 20px;
 }
 
 input{
-  background-color: #b42626;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 5px;
-  font-size: 15px;
-  padding: 5px;
-  padding-left: 5px;
-  margin-top: 15px;
-  text-decoration: none;
-  color: white;
+    background-color: #b42626;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    font-size: 15px;
+    padding: 5px;
+    padding-left: 5px;
+    margin-top: 15px;
+    text-decoration: none;
+    color: white;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input:focus {
-  background-color: #00000030 !important;
-  border: 1px solid #ffffff !important;
-  outline: none !important;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+    background-color: #00000030 !important;
+    border: 1px solid #ffffff !important;
+    outline: none !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #loginform{
-  margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 
 ::placeholder{
-  color: rgba(255, 255, 255, 0.500);
-  font-size: 13px;
+    color: rgba(255, 255, 255, 0.500);
+    font-size: 13px;
+}
+
+#token-inputs-container {
+    display: flex;
+    justify-content: center; /* Centraliza as caixas */
+    gap: 5px; /* Espaçamento entre as caixas */
+    margin-top: 15px;
+}
+
+/* Estilo individual para cada caixa de Token */
+.token-input {
+    width: 25px; /* Largura menor para caber 6 */
+    height: 25px;
+    font-size: 20px;
+    text-align: center;
+    /* Mantém o estilo base dos seus inputs */
+    background-color: #b42626; 
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    padding: 3px;
+    color: white;
+    /* Substitui o margin-top padrão do input */
+    margin-top: 0; 
+}
+
+
+/* ======================================================= */
+/* ESTILOS DE FLUXO PROGRESSIVO                            */
+/* ======================================================= */
+
+/* Regra essencial para ocultar as etapas não ativas no HTML */
+.oculto {
+    display: none !important;
+}
+
+/* MARGEM PARA SEPARAR AS ETAPAS NO FLUXO VERTICAL */
+#etapa-email, 
+#etapa-password, 
+#etapa-token {
+    margin-bottom: 20px; 
+}
+
+
+/* Estiliza inputs desabilitados (campos já preenchidos/validados) */
+input:disabled {
+    cursor: not-allowed;
+    background-color: #8f1f1f; 
+    color: rgba(255, 255, 255, 0.7); 
+    border-color: rgba(255, 255, 255, 0.4); 
+}
+
+/* Garante que o input desabilitado do Token siga o padrão */
+.token-input:disabled {
+    cursor: not-allowed;
+    background-color: #8f1f1f; 
+    color: rgba(255, 255, 255, 0.7); 
+    border-color: rgba(255, 255, 255, 0.4); 
+}
+
+/* Estiliza botões desabilitados */
+button:disabled {
+    cursor: not-allowed;
+    background-color: #f0f0f0; 
+    color: #999;
+    opacity: 0.8;
+}
+
+/* Estilo para as mensagens de erro/sucesso */
+#mensagem {
+    text-align: center;
+    font-weight: bold;
+    color: white; 
+    margin-bottom: 20px;
 }
