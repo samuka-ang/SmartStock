@@ -49,6 +49,8 @@ async function login(req, res) {
             return res.status(401).json({ message: 'E-mail ou senha incorretos.' });
         }
 
+        return res.status(401).json({ requires2FA: true, message: 'Token necessário.' });
+
     } catch (err) {
         if (err.name === 'ValidationError') {
             return res.status(400).json({ message: err.message });

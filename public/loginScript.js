@@ -76,17 +76,17 @@ async function validarEmail() {
             passwordInput.disabled = false;
             passwordInput.focus();
             btnUnico.disabled = false;
-            btnUnico.textContent = 'Próximo'; 
+            btnUnico.textContent = 'ENTRAR'; 
             exibirMensagem('');
         } else {
             btnUnico.disabled = false; 
-            btnUnico.textContent = 'Próximo';
+            btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail não cadastrado ou inválido.');
         }
 
     } catch (error) {
         btnUnico.disabled = false; 
-        btnUnico.textContent = 'Próximo';
+        btnUnico.textContent = 'ENTRAR';
         exibirMensagem('Erro de conexão com o servidor ao validar e-mail.');
         console.error(error);
     }
@@ -128,14 +128,14 @@ async function validarSenha() {
         } else {
             passwordInput.disabled = false; 
             btnUnico.disabled = false;
-            btnUnico.textContent = 'Próximo';
+            btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail ou senha incorretos.');
         }
 
     } catch (error) {
         passwordInput.disabled = false;
         btnUnico.disabled = false;
-        btnUnico.textContent = 'Próximo';
+        btnUnico.textContent = 'ENTRAR';
         exibirMensagem('Erro de conexão com o servidor.');
         console.error(error);
     }

@@ -1,8 +1,5 @@
-// routes/auth.js
-
 const express = require('express');
 const router = express.Router();
-// ⬅️ ATUALIZADO: Importando as novas funções do controller
 const { login, register, validateEmail, loginWithToken } = require('./authController');
 
 // 1. Rota para a Etapa E-mail (Verifica se o e-mail existe)

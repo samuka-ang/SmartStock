@@ -8,7 +8,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #8f1f1f;
+    background-color: #000000;
 }
 
 .entrar-screen{
@@ -132,7 +132,7 @@ input:focus {
 #etapa-email, 
 #etapa-password, 
 #etapa-token {
-    margin-bottom: 20px; 
+    margin-bottom: 10px; 
 }
 
 
