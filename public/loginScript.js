@@ -13,9 +13,10 @@ const btnUnico = document.getElementById('btn-unico');
 
 let etapaAtual = 1; 
 
-function exibirMensagem(texto, cor = 'red') {
+function exibirMensagem(texto, cor = 'White') {
     mensagem.textContent = texto;
     mensagem.style.color = cor;
+    mensagem.style.fontSize = '15px';
 }
 
 tokenInputs.forEach((input, index) => {
@@ -53,7 +54,7 @@ async function validarEmail() {
     exibirMensagem(''); 
 
     if (!email || !email.includes('@')) {
-        exibirMensagem('Por favor, insira um e-mail válido.');
+        exibirMensagem('Por favor, insira um e-mail válido');
         return;
     }
 
@@ -81,13 +82,13 @@ async function validarEmail() {
         } else {
             btnUnico.disabled = false; 
             btnUnico.textContent = 'ENTRAR';
-            exibirMensagem(data.message || 'E-mail não cadastrado ou inválido.');
+            exibirMensagem(data.message || 'E-mail não cadastrado ou inválido');
         }
 
     } catch (error) {
         btnUnico.disabled = false; 
         btnUnico.textContent = 'ENTRAR';
-        exibirMensagem('Erro de conexão com o servidor ao validar e-mail.');
+        exibirMensagem('Erro de conexão com o servidor ao validar e-mail');
         console.error(error);
     }
 }
@@ -98,7 +99,7 @@ async function validarSenha() {
     exibirMensagem('');
 
     if (password.length < 6) { 
-        exibirMensagem('A senha deve ter pelo menos 6 caracteres.');
+        exibirMensagem('A senha deve ter pelo menos 6 caracteres');
         return;
     }
     
@@ -119,7 +120,7 @@ async function validarSenha() {
             window.location.href = 'dashboard.html';
         } else if (response.status === 401 && data.requires2FA) {
             etapaAtual = 3; 
-            exibirMensagem('Token 2FA necessário. Insira abaixo.', 'white');
+            exibirMensagem('Token necessário');
             etapaToken.classList.remove('oculto');
             btnUnico.textContent = 'ENTRAR'; 
             btnUnico.disabled = false;
@@ -129,14 +130,14 @@ async function validarSenha() {
             passwordInput.disabled = false; 
             btnUnico.disabled = false;
             btnUnico.textContent = 'ENTRAR';
-            exibirMensagem(data.message || 'E-mail ou senha incorretos.');
+            exibirMensagem(data.message || 'E-mail ou senha incorretos');
         }
 
     } catch (error) {
         passwordInput.disabled = false;
         btnUnico.disabled = false;
         btnUnico.textContent = 'ENTRAR';
-        exibirMensagem('Erro de conexão com o servidor.');
+        exibirMensagem('Erro de conexão com o servidor');
         console.error(error);
     }
 }
@@ -149,7 +150,7 @@ async function validarToken() {
     exibirMensagem('');
 
     if (token.length !== 6 || !/^\d{6}$/.test(token)) { 
-        exibirMensagem('O token deve ter 6 dígitos. Preencha todos os campos.');
+        exibirMensagem('O token deve ter 6 dígitos');
         return;
     }
     
@@ -166,6 +167,7 @@ async function validarToken() {
         const data = await response.json();
 
         if (response.ok) {
+            localStorage.setItem('nomeUsuario', data.nome);
             window.location.href = 'dashboard.html';
         } else {
             btnUnico.disabled = false;
@@ -175,7 +177,7 @@ async function validarToken() {
     } catch (error) {
         btnUnico.disabled = false;
         btnUnico.textContent = 'ENTRAR';
-        exibirMensagem('Erro de conexão ao validar o token.');
+        exibirMensagem('Erro de conexão ao validar o token');
         console.error(error);
     }
 }
@@ -194,6 +196,6 @@ form.addEventListener('submit', async (e) => {
             await validarToken();
             break;
         default:
-            exibirMensagem('Erro de estado do formulário. Recarregue a página.');
+            exibirMensagem('Erro de estado do formulário. Recarregue a página');
     }
 });

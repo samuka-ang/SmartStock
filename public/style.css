@@ -8,7 +8,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #000000;
+    background-color: #861a1a;
 }
 
 .entrar-screen{
@@ -30,10 +30,11 @@ body {
 .senai{
     width: 220px;
     margin-top: 40px;
+    margin-bottom: 60px;
 }
 
 .entrar-div{
-    margin-top: 170px;
+    margin-top: 130px;
     margin-bottom: 100px;
 }
 
@@ -62,11 +63,12 @@ input{
     border-color: white;
     border-width: 1px;
     border-style: solid;
-    border-radius: 5px;
+    border: none; 
+    border-bottom: 2px solid #ffffff;
     font-size: 15px;
-    padding: 5px;
+    padding: 7px;
     padding-left: 5px;
-    margin-top: 15px;
+    margin-top: 5px;
     text-decoration: none;
     color: white;
 }
@@ -118,25 +120,16 @@ input:focus {
     margin-top: 0; 
 }
 
-
-/* ======================================================= */
-/* ESTILOS DE FLUXO PROGRESSIVO                            */
-/* ======================================================= */
-
-/* Regra essencial para ocultar as etapas não ativas no HTML */
 .oculto {
     display: none !important;
 }
 
-/* MARGEM PARA SEPARAR AS ETAPAS NO FLUXO VERTICAL */
 #etapa-email, 
 #etapa-password, 
 #etapa-token {
     margin-bottom: 10px; 
 }
 
-
-/* Estiliza inputs desabilitados (campos já preenchidos/validados) */
 input:disabled {
     cursor: not-allowed;
     background-color: #8f1f1f; 
@@ -144,7 +137,6 @@ input:disabled {
     border-color: rgba(255, 255, 255, 0.4); 
 }
 
-/* Garante que o input desabilitado do Token siga o padrão */
 .token-input:disabled {
     cursor: not-allowed;
     background-color: #8f1f1f; 
@@ -152,7 +144,6 @@ input:disabled {
     border-color: rgba(255, 255, 255, 0.4); 
 }
 
-/* Estiliza botões desabilitados */
 button:disabled {
     cursor: not-allowed;
     background-color: #f0f0f0; 
@@ -160,10 +151,21 @@ button:disabled {
     opacity: 0.8;
 }
 
-/* Estilo para as mensagens de erro/sucesso */
 #mensagem {
     text-align: center;
     font-weight: bold;
     color: white; 
     margin-bottom: 20px;
+}
+
+#titulo-usuario {
+    color: white;
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+img{
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
 }
