@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel de Controle</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="logo-small.png" type="logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStock</title>
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <link rel="stylesheet" href="../style/styleDashboard.css"> 
+    <link rel="icon" href="./icon/logo-small.png" type="logo.png">
 </head>
 <body>
-   <h1 id="titulo-usuario">Olá!</h1>
+    
+    <header class="dashboard-header">
+        <h1 id="titulo-usuario" class="saudacao">Olá!</h1>
+        <div id="btn-menu-logout" class="menu-icon">☰</div> 
+    </header>
 
-    <script src="dashboardScript.js"></script>
+    <div class="parceiros-container">
+        <div class="parceiro-box senai-bg">
+            <img src="./imagesDash/senai.png" alt="Logo SENAI" class="parceiro-logo">
+        </div>
+        
+        <div class="parceiro-box henkel-bg">
+            <img src="./imagesDash/henkel.png" alt="Logo Henkel" class="parceiro-logo">
+        </div>
+
+        <div class="parceiro-box dell-bg">
+            <img src="./imagesDash/dell.png" alt="Logo DELL" class="parceiro-logo">
+        </div>
+    </div>
+
+    <script src="./dashboardScript.js"></script>
 </body>
+</html>

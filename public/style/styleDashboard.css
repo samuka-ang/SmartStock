@@ -1,0 +1,221 @@
+* {
+    user-select: none;
+    scrollbar-width: none;
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #861a1a;
+    margin: 0; 
+    padding: 0;
+}
+
+.entrar-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.entrar-box {
+    background-color: #b42626;
+    margin-top: 40px;
+    padding: 60px;
+    border-color: rgba(255, 255, 255, 0.700);
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 2px;  
+}
+
+.senai {
+    width: 220px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.entrar {
+    color: #b42626;
+    background-color: white;
+    border-style: none;
+    padding: 15px 25px;
+    cursor: pointer; 
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 15px;
+    margin-top: 25px; 
+    margin-bottom: 25px;
+}
+
+input {
+    background-color: #b42626;
+    border: none; 
+    border-bottom: 2px solid #ffffff;
+    font-size: 15px;
+    padding: 7px;
+    padding-left: 5px;
+    margin-top: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input:focus {
+    background-color: #00000030 !important;
+    border-bottom: 2px solid #ffffff !important; 
+    outline: none !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.500);
+    font-size: 13px;
+}
+
+input:disabled {
+    cursor: not-allowed;
+    background-color: #8f1f1f; 
+    color: rgba(255, 255, 255, 0.7); 
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4); 
+}
+
+button:disabled {
+    cursor: not-allowed;
+    background-color: #f0f0f0; 
+    color: #999;
+    opacity: 0.8;
+}
+
+#mensagem {
+    text-align: center;
+    font-weight: bold;
+    color: white; 
+    margin-bottom: 20px;
+}
+
+.oculto {
+    display: none !important;
+}
+
+#etapa-email, 
+#etapa-password, 
+#etapa-token {
+    margin-bottom: 10px; 
+}
+
+#token-inputs-container {
+    display: flex;
+    justify-content: center; 
+    gap: 5px; 
+    margin-top: 15px;
+}
+
+.token-input {
+    width: 25px; 
+    height: 35px; 
+    font-size: 20px;
+    text-align: center;
+    background-color: #b42626; 
+    border: 1px solid white;
+    border-radius: 3px;
+    padding: 3px;
+    color: white;
+    margin-top: 0; 
+}
+
+.token-input:disabled {
+    cursor: not-allowed;
+    background-color: #8f1f1f; 
+    color: rgba(255, 255, 255, 0.7); 
+    border-color: rgba(255, 255, 255, 0.4); 
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: #921E1E; 
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    min-height: 50px;
+}
+
+.saudacao {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    text-align: left; 
+}
+
+.menu-icon {
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1; 
+}
+
+.parceiros-container {
+    display: flex;
+    justify-content: center; 
+    gap: 15px; 
+    padding: 20px;
+    flex-wrap: wrap; 
+}
+
+.parceiro-box {
+    width: 30%;
+    padding: 20px; 
+    max-width: 200px; 
+    height: 120px;   
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-color: #B42626; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.parceiro-box:hover {
+    transform: scale(1.05); 
+}
+
+.parceiro-logo {
+    max-width: 90%;
+    max-height: 70%;
+    height: auto;
+    object-fit: contain;
+}
+
+.dell-bg {
+    background-color: #B42626; 
+}
+
+img {
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .parceiros-container {
+        flex-direction: column; 
+        align-items: center; 
+        padding: 20px;
+    }
+
+    .parceiro-box {
+        width: 90%; 
+        max-width: none;
+        height: 100px; 
+        margin-bottom: 15px; 
+    }
+}

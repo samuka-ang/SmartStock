@@ -11,7 +11,7 @@ const tokenInputs = document.querySelectorAll('.token-input');
 
 const btnUnico = document.getElementById('btn-unico');
 
-let etapaAtual = 1; 
+let etapaAtual = 1;
 
 function exibirMensagem(texto, cor = 'White') {
     mensagem.textContent = texto;
@@ -51,7 +51,7 @@ tokenInputs.forEach((input, index) => {
 
 async function validarEmail() {
     const email = emailInput.value.trim();
-    exibirMensagem(''); 
+    exibirMensagem('');
 
     if (!email || !email.includes('@')) {
         exibirMensagem('Por favor, insira um e-mail válido');
@@ -71,22 +71,22 @@ async function validarEmail() {
         const data = await response.json();
 
         if (response.ok) {
-            etapaAtual = 2; 
-            etapaSenha.classList.remove('oculto'); 
-            emailInput.disabled = true; 
+            etapaAtual = 2;
+            etapaSenha.classList.remove('oculto');
+            emailInput.disabled = true;
             passwordInput.disabled = false;
             passwordInput.focus();
             btnUnico.disabled = false;
-            btnUnico.textContent = 'ENTRAR'; 
+            btnUnico.textContent = 'ENTRAR';
             exibirMensagem('');
         } else {
-            btnUnico.disabled = false; 
+            btnUnico.disabled = false;
             btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail não cadastrado ou inválido');
         }
 
     } catch (error) {
-        btnUnico.disabled = false; 
+        btnUnico.disabled = false;
         btnUnico.textContent = 'ENTRAR';
         exibirMensagem('Erro de conexão com o servidor ao validar e-mail');
         console.error(error);
@@ -98,7 +98,7 @@ async function validarSenha() {
     const password = passwordInput.value;
     exibirMensagem('');
 
-    if (password.length < 6) { 
+    if (password.length < 6) {
         exibirMensagem('A senha deve ter pelo menos 6 caracteres');
         return;
     }
@@ -117,17 +117,17 @@ async function validarSenha() {
         const data = await response.json();
 
         if (response.ok) {
+            localStorage.setItem('nomeUsuario', data.nome);
             window.location.href = 'dashboard.html';
         } else if (response.status === 401 && data.requires2FA) {
-            etapaAtual = 3; 
-            exibirMensagem('Token necessário');
+            etapaAtual = 3;
             etapaToken.classList.remove('oculto');
-            btnUnico.textContent = 'ENTRAR'; 
+            btnUnico.textContent = 'ENTRAR';
             btnUnico.disabled = false;
             tokenInputs.forEach(input => input.disabled = false);
-            tokenInputs[0].focus(); 
+            tokenInputs[0].focus();
         } else {
-            passwordInput.disabled = false; 
+            passwordInput.disabled = false;
             btnUnico.disabled = false;
             btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail ou senha incorretos');
@@ -149,7 +149,7 @@ async function validarToken() {
 
     exibirMensagem('');
 
-    if (token.length !== 6 || !/^\d{6}$/.test(token)) { 
+    if (token.length !== 6 || !/^\d{6}$/.test(token)) {
         exibirMensagem('O token deve ter 6 dígitos');
         return;
     }
@@ -158,7 +158,7 @@ async function validarToken() {
     btnUnico.textContent = 'Verificando...';
 
     try {
-        const response = await fetch('http://localhost:3000/login-with-token', { 
+        const response = await fetch('http://localhost:3000/login-with-token', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password, token })
@@ -182,20 +182,20 @@ async function validarToken() {
     }
 }
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    switch (etapaAtual) {
-        case 1:
-            await validarEmail();
-            break;
-        case 2:
-            await validarSenha();
-            break;
-        case 3:
-            await validarToken();
-            break;
-        default:
-            exibirMensagem('Erro de estado do formulário. Recarregue a página');
-    }
-});
+if (btnUnico) {
+    btnUnico.addEventListener('click', async (e) => {
+        switch (etapaAtual) {
+            case 1:
+                await validarEmail();
+                break;
+            case 2:
+                await validarSenha();
+                break;
+            case 3:
+                await validarToken();
+                break;
+            default:
+                exibirMensagem('Erro de estado do formulário. Recarregue a página');
+        }
+    });
+}

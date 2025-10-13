@@ -45,7 +45,7 @@ async function login(req, res) {
             return res.status(401).json({ message: 'E-mail ou senha incorretos' });
         }
 
-        return res.status(401).json({ requires2FA: true, message: 'Token necessário' });
+        return res.status(401).json({ requires2FA: true});
 
     } catch (err) {
         if (err.name === 'ValidationError') {
@@ -71,8 +71,10 @@ async function loginWithToken(req, res) {
 
             return res.status(200).json({
                 nome: nomeUsuario
-            });} else {
-                return res.status(401).json({ message: 'Token de segurança inválido' });}
+            });
+        } else {
+            return res.status(401).json({ message: 'Token de segurança inválido' });
+        }
 
     } catch (err) {
         console.error(err);
@@ -86,7 +88,6 @@ async function register(req, res) {
 
         const { nome, email, password, token } = req.body;
 
-        // Verifica se o e-mail já existe
         const [rows] = await pool.query('SELECT email FROM users WHERE email = ?', [email]);
         if (rows.length > 0) {
             return res.status(409).json({ message: 'Usuário já cadastrado' });
@@ -110,6 +111,5 @@ async function register(req, res) {
         return res.status(500).json({ message: 'Ocorreu um erro no servidor, tente novamente' });
     }
 }
-
 
 module.exports = { login, register, loginWithToken, validateEmail };
