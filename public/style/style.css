@@ -6,7 +6,12 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #861a1a;
+    background-image: url('../icon/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    height: 100vh;
 }
 
 .entrar-screen {
