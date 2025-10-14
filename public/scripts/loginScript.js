@@ -10,25 +10,64 @@ const btnUnico = document.getElementById('btn-unico');
 
 let etapaAtual = 1;
 
-function exibirMensagem(texto, cor = 'white') {
+function exibirMensagem(texto) {
     mensagem.textContent = texto;
-    mensagem.style.color = cor;
-    mensagem.style.fontSize = '15px';
 }
 
-// Reseta formulário ao voltar da guia ou usar back/forward
+// =====================
+// FADE IN / FADE OUT
+// =====================
+function fadeOut(element, duration = 300) {
+    return new Promise((resolve) => {
+        element.style.transition = `opacity ${duration}ms`;
+        element.style.opacity = 0;
+        setTimeout(() => {
+            element.classList.add('oculto');
+            element.style.opacity = 1;
+            resolve();
+        }, duration);
+    });
+}
+
+function fadeIn(element, duration = 300, delay = 200) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            element.classList.remove('oculto');
+            element.style.opacity = 0;
+            element.style.transition = `opacity ${duration}ms`;
+            requestAnimationFrame(() => {
+                element.style.opacity = 1;
+            });
+            setTimeout(() => resolve(), duration);
+        }, delay);
+    });
+}
+
+// =====================
+// RESETAR FORM AO VOLTAR DA GUIA
+// =====================
 window.addEventListener('pageshow', (event) => {
     if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
         localStorage.removeItem('nomeUsuario');
         localStorage.removeItem('tokenJWT');
 
+        // Limpar valores
         emailInput.value = '';
         passwordInput.value = '';
         tokenInputs.forEach(input => input.value = '');
+
+        // Resetar etapas
         etapaAtual = 1;
         etapaSenha.classList.add('oculto');
         etapaToken.classList.add('oculto');
+
+        // Deixar email visível
         emailInput.disabled = false;
+        if (etapaEmail.classList.contains('oculto')) {
+            etapaEmail.classList.remove('oculto');
+            emailInput.style.opacity = 1;
+        }
+
         passwordInput.disabled = true;
         tokenInputs.forEach(input => input.disabled = true);
         btnUnico.disabled = false;
@@ -37,7 +76,9 @@ window.addEventListener('pageshow', (event) => {
     }
 });
 
-// Configuração dos inputs do token
+// =====================
+// CONFIGURAÇÃO TOKEN
+// =====================
 tokenInputs.forEach((input, index) => {
     input.addEventListener('input', (e) => {
         const value = e.target.value;
@@ -68,7 +109,9 @@ tokenInputs.forEach((input, index) => {
     });
 });
 
-// Validar email
+// =====================
+// VALIDAR EMAIL
+// =====================
 async function validarEmail() {
     const email = emailInput.value.trim();
     exibirMensagem('');
@@ -92,7 +135,8 @@ async function validarEmail() {
 
         if (response.ok) {
             etapaAtual = 2;
-            etapaSenha.classList.remove('oculto');
+            await fadeOut(etapaEmail);
+            await fadeIn(etapaSenha);
             emailInput.disabled = true;
             passwordInput.disabled = false;
             passwordInput.focus();
@@ -103,7 +147,6 @@ async function validarEmail() {
             btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail não cadastrado ou inválido');
         }
-
     } catch (error) {
         btnUnico.disabled = false;
         btnUnico.textContent = 'ENTRAR';
@@ -112,7 +155,9 @@ async function validarEmail() {
     }
 }
 
-// Validar senha
+// =====================
+// VALIDAR SENHA
+// =====================
 async function validarSenha() {
     const email = emailInput.value;
     const password = passwordInput.value;
@@ -139,7 +184,8 @@ async function validarSenha() {
         if (response.ok) {
             if (data.requires2FA) {
                 etapaAtual = 3;
-                etapaToken.classList.remove('oculto');
+                await fadeOut(etapaSenha);
+                await fadeIn(etapaToken);
                 btnUnico.textContent = 'ENTRAR';
                 btnUnico.disabled = false;
                 tokenInputs.forEach(input => input.disabled = false);
@@ -155,7 +201,6 @@ async function validarSenha() {
             btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail ou senha incorretos');
         }
-
     } catch (error) {
         passwordInput.disabled = false;
         btnUnico.disabled = false;
@@ -165,7 +210,9 @@ async function validarSenha() {
     }
 }
 
-// Validar token 2FA e receber JWT
+// =====================
+// VALIDAR TOKEN
+// =====================
 async function validarToken() {
     const email = emailInput.value;
     const password = passwordInput.value;
@@ -207,7 +254,9 @@ async function validarToken() {
     }
 }
 
-// Botão único controla todas as etapas
+// =====================
+// BOTÃO ÚNICO
+// =====================
 if (btnUnico) {
     btnUnico.addEventListener('click', async (e) => {
         e.preventDefault();

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartStock</title>
-    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="../style/style.css"> 
     <link rel="icon" href="./icon/logo-small.ico">
 </head>
@@ -13,7 +13,7 @@
         <div class="entrar-box">
             <img src="./icon/senai.png" alt="Logo Senai" class="senai">
             
-            <form id="login-form">
+            <form id="login-form" novalidate>
                 
                 <div id="etapa-email">
                     <input type="email" id="email" required placeholder="Email" autocomplete="off"><br><br>
@@ -35,7 +35,7 @@
                     <br><br>
                 </div>
                 
-                <div id="mensagem" style="margin-top: 20px;"></div>
+                <div id="mensagem"></div>
 
                 <button type="submit" id="btn-unico" class="entrar">ENTRAR</button> 
             </form>
