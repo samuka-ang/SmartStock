@@ -4,7 +4,7 @@ const registerSchema = require('../schemas/register');
 const pool = require('../server/db');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'sua_chave_secreta_aqui';
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRATION = '30m';
 
 async function validateEmail(req, res) {

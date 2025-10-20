@@ -254,9 +254,6 @@ async function validarToken() {
     }
 }
 
-// =====================
-// BOTÃO ÚNICO
-// =====================
 if (btnUnico) {
     btnUnico.addEventListener('click', async (e) => {
         e.preventDefault();

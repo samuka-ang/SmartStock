@@ -2,3 +2,4 @@
 /dist/
 *.map
 node_modules/
+.env
