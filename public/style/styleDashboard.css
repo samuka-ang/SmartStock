@@ -85,7 +85,7 @@ body {
 }
 
 .sidebar-menu li a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Overlay */
@@ -117,7 +117,6 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
-    z-index: 1100;
     position: relative;
 }
 
@@ -125,12 +124,14 @@ body {
     font-size: 30px;
     font-weight: 500;
     margin: 0;
+    z-index: 800;
 }
 
 .menu-icon {
     font-size: 26px;
     cursor: pointer;
     line-height: 1;
+    z-index: 1100;
 }
 
 /* Container Parceiros */
