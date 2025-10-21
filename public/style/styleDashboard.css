@@ -32,16 +32,16 @@ body {
     flex-direction: column;
 }
 
-/* Sidebar */
+/* Sidebar agora abre pela direita */
 .sidebar {
     position: fixed;
     top: 0;
-    left: -250px;
+    right: -250px; /* inicialmente escondida à direita */
     width: 250px;
     height: 100%;
     background-color: #861a1a;
     color: white;
-    transition: left 0.3s ease;
+    transition: right 0.3s ease;
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -103,7 +103,7 @@ body {
 }
 
 .sidebar.active {
-    left: 0;
+    right: 0; /* abre pela direita */
 }
 
 .sidebar-overlay.active {
