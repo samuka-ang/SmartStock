@@ -37,21 +37,7 @@ window.addEventListener('pageshow', function () {
     if (titulo) titulo.textContent = `Olá, ${nome}!`;
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const parceiroBoxes = document.querySelectorAll('.parceiro-box');
-
-    parceiroBoxes.forEach(box => {
-        box.addEventListener('click', () => {
-            let parceiro;
-            if (box.classList.contains('senai-bg')) parceiro = 'SENAI';
-            else if (box.classList.contains('henkel-bg')) parceiro = 'Henkel';
-            else if (box.classList.contains('dell-bg')) parceiro = 'DELL';
-
-            if (parceiro) alert(`Você clicou no parceiro: ${parceiro}`);
-        });
-    });
-});
-
+// Criação dinâmica de boxes com imagens ou nome da tabela
 window.addEventListener('DOMContentLoaded', () => {
     const tabelasLiberadas = JSON.parse(localStorage.getItem('tabelasLiberadas') || '[]');
     const container = document.getElementById('parceiros-container');
@@ -64,10 +50,39 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     tabelasLiberadas.forEach(nome => {
-        const btn = document.createElement('button');
-        btn.textContent = nome;
-        btn.classList.add('empresa-btn');
-        btn.addEventListener('click', () => alert(`Você clicou na empresa: ${nome}`));
-        container.appendChild(btn);
+        const box = document.createElement('div');
+        box.classList.add('parceiro-box');
+
+        // Overlay do nome da tabela
+        const overlay = document.createElement('div');
+        overlay.classList.add('parceiro-overlay');
+        overlay.textContent = nome;
+        overlay.style.display = 'flex'; // Exibe por padrão, será escondido se imagem existir
+
+        const img = document.createElement('img');
+        img.classList.add('parceiro-logo');
+
+        // Nome da tabela → nome do arquivo de imagem (minusculo e sem espaços)
+        const nomeImagem = nome.toLowerCase().replace(/\s+/g, '');
+        img.src = `./imagesDash/${nomeImagem}.png`;
+        img.alt = nome;
+
+        // Se a imagem carregar, esconde o overlay (nome)
+        img.onload = () => {
+            overlay.style.display = 'none';
+        };
+
+        // Se não carregar (imagem não existe), overlay continua visível
+        img.onerror = () => {
+            img.remove(); // Remove a tag img quebrada
+            overlay.style.display = 'flex';
+        };
+
+        box.appendChild(img);
+        box.appendChild(overlay);
+
+        box.addEventListener('click', () => alert(`Você clicou na empresa: ${nome}`));
+
+        container.appendChild(box);
     });
 });
