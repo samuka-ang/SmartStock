@@ -51,3 +51,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+    const tabelasLiberadas = JSON.parse(localStorage.getItem('tabelasLiberadas') || '[]');
+    const container = document.getElementById('parceiros-container');
+
+    if (!container) return;
+
+    if (tabelasLiberadas.length === 0) {
+        container.innerHTML = '<p>Nenhuma empresa liberada para este token.</p>';
+        return;
+    }
+
+    tabelasLiberadas.forEach(nome => {
+        const btn = document.createElement('button');
+        btn.textContent = nome;
+        btn.classList.add('empresa-btn');
+        btn.addEventListener('click', () => alert(`Você clicou na empresa: ${nome}`));
+        container.appendChild(btn);
+    });
+});

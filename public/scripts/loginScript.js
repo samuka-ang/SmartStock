@@ -240,6 +240,7 @@ async function validarToken() {
         if (response.ok) {
             localStorage.setItem('nomeUsuario', data.nome);
             localStorage.setItem('tokenJWT', data.tokenJWT);
+            localStorage.setItem('tabelasLiberadas', JSON.stringify(data.tabelasLiberadas || []));
             window.location.href = 'dashboard.html';
         } else {
             btnUnico.disabled = false;
