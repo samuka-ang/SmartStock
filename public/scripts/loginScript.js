@@ -15,7 +15,7 @@ function exibirMensagem(texto) {
 }
 
 // =====================
-// FADE IN / FADE OUT
+// ANIMAÇÕES
 // =====================
 function fadeOut(element, duration = 300) {
     return new Promise((resolve) => {
@@ -44,30 +44,19 @@ function fadeIn(element, duration = 300, delay = 200) {
 }
 
 // =====================
-// RESETAR FORM AO VOLTAR DA GUIA
+// RESETAR AO VOLTAR
 // =====================
 window.addEventListener('pageshow', (event) => {
     if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-        localStorage.removeItem('nomeUsuario');
-        localStorage.removeItem('tokenJWT');
-
-        // Limpar valores
+        localStorage.clear();
         emailInput.value = '';
         passwordInput.value = '';
         tokenInputs.forEach(input => input.value = '');
-
-        // Resetar etapas
         etapaAtual = 1;
         etapaSenha.classList.add('oculto');
         etapaToken.classList.add('oculto');
-
-        // Deixar email visível
+        etapaEmail.classList.remove('oculto');
         emailInput.disabled = false;
-        if (etapaEmail.classList.contains('oculto')) {
-            etapaEmail.classList.remove('oculto');
-            emailInput.style.opacity = 1;
-        }
-
         passwordInput.disabled = true;
         tokenInputs.forEach(input => input.disabled = true);
         btnUnico.disabled = false;
@@ -86,9 +75,7 @@ tokenInputs.forEach((input, index) => {
             e.target.value = '';
             return;
         }
-        if (index < tokenInputs.length - 1) {
-            tokenInputs[index + 1].focus();
-        }
+        if (index < tokenInputs.length - 1) tokenInputs[index + 1].focus();
     });
 
     input.addEventListener('keydown', (e) => {
@@ -99,18 +86,16 @@ tokenInputs.forEach((input, index) => {
 
     input.addEventListener('paste', (e) => {
         e.preventDefault();
-        const paste = e.clipboardData.getData('text');
-        if (/^\d{6}$/.test(paste)) {
-            tokenInputs.forEach((tokenInput, i) => {
-                tokenInput.value = paste[i];
-            });
+        const paste = e.clipboardData.getData('text').replace(/\D/g, '');
+        if (paste.length === 6) {
+            tokenInputs.forEach((tokenInput, i) => tokenInput.value = paste[i] || '');
             tokenInputs[tokenInputs.length - 1].focus();
         }
     });
 });
 
 // =====================
-// VALIDAR EMAIL
+// ETAPA 1 - VALIDAR EMAIL
 // =====================
 async function validarEmail() {
     const email = emailInput.value.trim();
@@ -140,27 +125,24 @@ async function validarEmail() {
             emailInput.disabled = true;
             passwordInput.disabled = false;
             passwordInput.focus();
-            btnUnico.disabled = false;
-            btnUnico.textContent = 'ENTRAR';
         } else {
-            btnUnico.disabled = false;
-            btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail não cadastrado ou inválido');
         }
     } catch (error) {
-        btnUnico.disabled = false;
-        btnUnico.textContent = 'ENTRAR';
         exibirMensagem('Erro de conexão com o servidor ao validar e-mail');
         console.error(error);
+    } finally {
+        btnUnico.disabled = false;
+        btnUnico.textContent = 'ENTRAR';
     }
 }
 
 // =====================
-// VALIDAR SENHA
+// ETAPA 2 - VALIDAR SENHA
 // =====================
 async function validarSenha() {
     const email = emailInput.value;
-    const password = passwordInput.value;
+    const password = passwordInput.value.trim();
     exibirMensagem('');
 
     if (password.length < 6) {
@@ -168,7 +150,6 @@ async function validarSenha() {
         return;
     }
 
-    passwordInput.disabled = true;
     btnUnico.disabled = true;
     btnUnico.textContent = 'Aguarde...';
 
@@ -181,46 +162,35 @@ async function validarSenha() {
 
         const data = await response.json();
 
-        if (response.ok) {
-            if (data.requires2FA) {
-                etapaAtual = 3;
-                await fadeOut(etapaSenha);
-                await fadeIn(etapaToken);
-                btnUnico.textContent = 'ENTRAR';
-                btnUnico.disabled = false;
-                tokenInputs.forEach(input => input.disabled = false);
-                tokenInputs[0].focus();
-            } else {
-                localStorage.setItem('nomeUsuario', data.nome);
-                localStorage.setItem('tokenJWT', data.tokenJWT);
-                window.location.href = 'dashboard.html';
-            }
+        if (response.ok && data.requires2FA) {
+            etapaAtual = 3;
+            await fadeOut(etapaSenha);
+            await fadeIn(etapaToken);
+            tokenInputs.forEach(input => input.disabled = false);
+            tokenInputs[0].focus();
         } else {
-            passwordInput.disabled = false;
-            btnUnico.disabled = false;
-            btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'E-mail ou senha incorretos');
         }
     } catch (error) {
-        passwordInput.disabled = false;
-        btnUnico.disabled = false;
-        btnUnico.textContent = 'ENTRAR';
         exibirMensagem('Erro de conexão com o servidor');
         console.error(error);
+    } finally {
+        btnUnico.disabled = false;
+        btnUnico.textContent = 'ENTRAR';
     }
 }
 
 // =====================
-// VALIDAR TOKEN
+// ETAPA 3 - VALIDAR TOKEN (DINÂMICO)
 // =====================
 async function validarToken() {
-    const email = emailInput.value;
-    const password = passwordInput.value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
     const token = Array.from(tokenInputs).map(input => input.value).join('');
 
     exibirMensagem('');
 
-    if (token.length !== 6 || !/^\d{6}$/.test(token)) {
+    if (!/^\d{6}$/.test(token)) {
         exibirMensagem('O token deve ter 6 dígitos');
         return;
     }
@@ -241,20 +211,24 @@ async function validarToken() {
             localStorage.setItem('nomeUsuario', data.nome);
             localStorage.setItem('tokenJWT', data.tokenJWT);
             localStorage.setItem('tabelasLiberadas', JSON.stringify(data.tabelasLiberadas || []));
-            window.location.href = 'dashboard.html';
+
+            // 🔐 Redirecionamento seguro conforme backend
+            window.location.href = data.dashboard || 'dashboard.html';
         } else {
-            btnUnico.disabled = false;
-            btnUnico.textContent = 'ENTRAR';
             exibirMensagem(data.message || 'Token inválido.');
         }
     } catch (error) {
-        btnUnico.disabled = false;
-        btnUnico.textContent = 'ENTRAR';
         exibirMensagem('Erro de conexão ao validar o token');
         console.error(error);
+    } finally {
+        btnUnico.disabled = false;
+        btnUnico.textContent = 'ENTRAR';
     }
 }
 
+// =====================
+// CONTROLE DO BOTÃO
+// =====================
 if (btnUnico) {
     btnUnico.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -269,7 +243,7 @@ if (btnUnico) {
                 await validarToken();
                 break;
             default:
-                exibirMensagem('Erro de estado do formulário. Recarregue a página');
+                exibirMensagem('Erro de estado. Recarregue a página.');
         }
     });
 }

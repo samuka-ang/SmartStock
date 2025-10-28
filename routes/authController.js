@@ -4,6 +4,8 @@ const registerSchema = require('../schemas/register');
 const pool = require('../server/db');
 const jwt = require('jsonwebtoken');
 
+const tabelasPorToken = require('./tokenTables');
+
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRATION = '30m';
 
@@ -44,7 +46,6 @@ async function login(req, res) {
 async function loginWithToken(req, res) {
     try {
         const { email, password, token } = req.body;
-        const tabelasPorToken = require('./tokenTables'); // continua igual
 
         const [rows] = await pool.query('SELECT nome, senha, token FROM users WHERE email = ?', [email]);
         if (rows.length === 0) return res.status(401).json({ message: 'Credenciais inválidas' });
@@ -55,17 +56,17 @@ async function loginWithToken(req, res) {
 
         if (token !== String(user.token).trim()) return res.status(401).json({ message: 'Token inválido' });
 
-        // Tabelas permitidas conforme o token
-        const tabelasPermitidas = tabelasPorToken[token] || [];
+        // Buscar informações do token
+        const tokenInfo = tabelasPorToken[token];
+        if (!tokenInfo) return res.status(401).json({ message: 'Token não autorizado' });
 
-        // 🔍 Buscar tabelas que realmente existem no banco
-        const [tabelasBanco] = await pool.query('SHOW TABLES');
-        const nomesTabelasBanco = tabelasBanco.map(obj => Object.values(obj)[0]);
+        let tabelasLiberadas = tokenInfo.tabelas;
 
-        // Filtra as que realmente existem
-        const tabelasLiberadas = tabelasPermitidas.filter(nome =>
-            nomesTabelasBanco.includes(nome.toLowerCase()) || nomesTabelasBanco.includes(nome)
-        );
+        // Se for '*', liberar todas as tabelas do banco
+        if (tabelasLiberadas.includes('*')) {
+            const [tabelasBanco] = await pool.query('SHOW TABLES');
+            tabelasLiberadas = tabelasBanco.map(obj => Object.values(obj)[0]);
+        }
 
         const payload = { id: email, nome: user.nome };
         const tokenJWT = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
@@ -73,14 +74,16 @@ async function loginWithToken(req, res) {
         return res.status(200).json({
             nome: user.nome,
             tokenJWT,
-            tabelasLiberadas
+            tabelasLiberadas,
+            dashboard: tokenInfo.dashboard,
+            isAdmin: tokenInfo.dashboard === 'dashboardAdmin.html'
         });
+
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Erro ao validar token' });
     }
 }
-
 
 async function register(req, res) {
     try {
