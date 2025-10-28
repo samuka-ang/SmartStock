@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStock - Admin</title>
+    <link rel="stylesheet" href="./style/dashboardStyle.css"> 
+    <link rel="icon" href="./icon/logo-small.ico">
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Menu</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="cadastrarUsuario.html" id="btn-cadastrar-usuario">Cadastrar Usuário</a></li>
+            <li><a href="criarLista.html" id="btn-criar-lista">Criar Lista</a></li>
+            <li><a href="#" id="btn-sidebar-logout">Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="topo">
+        <h1 id="titulo-usuario" class="saudacao"></h1>
+        <div id="btn-menu-toggle" class="menu-icon">☰</div> 
+    </div>
+
+    <main class="parceiros-container" id="parceiros-container">
+        <!-- Aqui os botões ou boxes serão criados dinamicamente -->
+    </main>
+
+    <script src="./scripts/adminScript.js"></script>
+</body>
+</html>
